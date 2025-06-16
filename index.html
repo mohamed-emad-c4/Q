@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الطلاب - القمم الصيفية</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input,
+    select,
+    button {
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>تسجيل في البرنامج الصيفي</h2>
+
+  <form id="form">
+    <input type="text" name="name" placeholder="الاسم بالكامل" required><br>
+    <input type="number" name="age" placeholder="العمر" required><br>
+    <select name="stage" required>
+      <option value="">اختر المرحلة</option>
+      <option>ابتدائي</option>
+      <option>إعدادي</option>
+      <option>ثانوي</option>
+    </select><br>
+    <select name="program" required>
+      <option value="">اختر البرنامج</option>
+      <option>برنامج البنين</option>
+      <option>برنامج البنات</option>
+      <option>البرنامج الإنجليزي</option>
+    </select><br>
+    <button type="submit">تسجيل</button>
+  </form>
+
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = new URLSearchParams(new FormData(form));
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxqDZazz1eZtQwLBN_M4ojk3JqqgmmbKhGAVAlzqGwZ7CPQcaaZFbdwDszuqk5B8agliQ/exec';
+
+      fetch(scriptURL, { method: 'POST', body: data })
+        .then(res => res.text())
+        .then(code => {
+          const name = form.name.value;
+          const phone = '201099312476'; // حط رقم الواتساب بتاعك هنا
+          const msg = `أهلاً ${name}، تم تسجيلك بنجاح. كودك هو: ${code}`;
+          const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+          document.getElementById("result").innerHTML = `
+            ✅ تم تسجيلك بنجاح <br>
+            كودك: <strong>${code}</strong><br><br>
+            <a href="${whatsappURL}" target="_blank">📲 إرسال الكود على واتساب</a>
+          `;
+          form.reset();
+        })
+        .catch(err => {
+          alert("حصل خطأ. حاول تاني.");
+        });
+    });
+  </script>
+</body>
+
+</html>
