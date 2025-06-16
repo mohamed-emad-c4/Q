@@ -50,7 +50,7 @@
 
       const form = e.target;
       const data = new URLSearchParams(new FormData(form));
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbxqDZazz1eZtQwLBN_M4ojk3JqqgmmbKhGAVAlzqGwZ7CPQcaaZFbdwDszuqk5B8agliQ/exec';
+      const scriptURL = 'https://old-night-1695.zemax-c4.workers.dev';
 
       fetch(scriptURL, { method: 'POST', body: data })
         .then(res => res.text())
